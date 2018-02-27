@@ -1,36 +1,20 @@
-public class Pos {
-	private int x,y;
-	
-	public Pos(int x, int y) {
-		// TODO Auto-generated constructor stub
-		this.x = x;
-		this.y = y;
-	}
-	
-	public int distance(Pos another)
-	{
-		return Math.abs(x - another.x) + Math.abs(y - another.y);
-	}
-	
-	public int distance(int x1, int y1)
-	{
-		return Math.abs(x - x1) + Math.abs(y - y1);
-	}
-	
-	public void setPos(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
+class Pos:
+	x=0
+	y=0
+	def __init__(self,x,y):
+		self.x= x
+		self.y= y
 
-	public int getX() {
-		return x;
-	}
+	def distance(self,another):
+		return abs(self.x - another.x) + abs(self.y - another.y)
 
-	public int getY() {
-		return y;
-	}
-	
-	
-	
-}
+	def distance(self, x1,y1):
+		return abs(self.x - x1) + abs(self.y - y)
+
+	def setPos(self,x,y):
+		self.x = x
+		self.y = y
+	def getX(self):
+		return self.x
+	def getY(self):
+		return self.y

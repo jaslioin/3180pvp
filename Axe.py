@@ -1,33 +1,24 @@
-public class Axe extends Weapon {
-	private static final int AXE_RANGE = 1;
-	private static final int AXE_INIT_DAMAGE = 40;
+import Weapon
+class Axe(Weapon):
+	AXE_RANGE = 1
+	AXE_INIT_DAMAGE = 40
 
-	public Axe(Player owner) {
-		super(AXE_RANGE, AXE_INIT_DAMAGE, owner);
+	def __init__(self,owner):
+		super(Weapon,self).__init__(self.AXE_RANGE,self.AXE_INIT_DAMAGE,owner)
 
-	}
+	def enhance(self):
+		self.effect +=10
 
-	public void enhance() {
-		this.effect += 10;
-	}
+#	override
+	def action(self,posx,posy):
+		print "You are using axe attacking " + posx + " " + posy + "."
 
-	@Override
-	public void action(int posx, int posy) {
-		// TODO Auto-generated method stub
-		System.out.println("You are using axe attacking " + posx + " " + posy + ".");
+		if self.owner.pos.distance(posx,posy) <= self.range:
+			player = self.owner.game.getPlayer(posx,posy)
 
-		if (this.owner.pos.distance(posx, posy)  <= this.range) {
-			// search for all targets with target coordinates.
-			Player player = owner.game.getPlayer(posx, posy);
+			if player is not None:
+				player.decreaseHealth(self.effect)
+		else:
+			print "Out of reach."
 
-			if(player != null ) 
-			{
-				player.decreaseHealth(this.effect);
-			}
-		} else {
-			System.out.println("Out of reach.");
-		}
 
-	}
-
-}

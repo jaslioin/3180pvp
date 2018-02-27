@@ -1,25 +1,20 @@
-public class Chark extends Player {
+from Player import Player
+from Axe import Axe
 
-	public Chark(int posx, int posy, int index, SurvivalGame game) {
-		super(100, 4, posx, posy, index, game);
 
-		this.myString = "C" + Integer.toString(index);
-		this.equipment = new Axe(this);
+class Chark(Player):
 
-	}
+    def __init__(self, posx, posy, index, game):
+        super(Player, self).__init__(100, 4, posx, posy, index, game)
 
-	public void teleport() {
-		
-		super.teleport();
-		((Axe) this.equipment).enhance();
-	}
+        self.myString = "C" + index
+        self.equipment = Axe()
 
-	@Override
-	public void askForMove() {
-		// TODO Auto-generated method stub
-		System.out.println(String.format("You are a Chark (C%d) using Axe. (Range: %d, Damage: %d)",this.index,
-			this.equipment.getRange(), this.equipment.getEffect()));
-		super.askForMove();
-		
-	}
-}
+    def teleport(self):
+        super(Player, self).__init__()
+        self.equipment.enhance()
+
+    def askForMove(self):
+        print("You are a Chark (C%d) using Axe. (Range: %d, Damage: %d)"
+              % (self.index, self.equipment.getRange(), self.equipment.getEffect()))
+        super(Chark, self).askForMove()

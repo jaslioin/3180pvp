@@ -1,90 +1,80 @@
-import java.util.Random;
+from random import random
+from Pos import Pos
+from Weapon import Weapon
+#from SurvivalGame import SurvivalGame
 
-public abstract class Player {
-	private int MOBILITY;
-	protected Pos pos;
-	protected int health;
-	protected Weapon equipment;
-	protected int index;
-	protected String myString;
-	protected SurvivalGame game;
-	
-	public Player(int healthCap, int mob, int posx, int posy, int index, SurvivalGame game) {
 
-		this.MOBILITY = mob;
-		this.health = healthCap;
-		this.pos = new Pos(posx, posy);
-		this.index = index;
-		this.game = game;
-	}
+class Player(object):
+    MOBILITY = 0
+    pos = None
+    health = 0
+    equipment = None
+    index = 0
+    myString = ''
+    game = None
 
-	public Pos getPos() {
-		return pos;
-	}
+    def __init__(self, healthCap, mob, posx, posy, index, game):
+        self.MOBILITY = mob
+        self.health = healthCap
+        self.pos = Pos(posx, posy)
+        self.index = index
+        self.game = game
 
-	public void teleport() {
+    def getPos(self):
+        return self.pos
 
-		Random rand;
-		rand = new Random();
-		int randx = rand.nextInt(game.D);
-		int randy = rand.nextInt(game.D);
-		while (game.positionOccupied(randx, randy)) {
-			randx = rand.nextInt(game.D);
-			randy = rand.nextInt(game.D);
-		}
-		pos.setPos(randx, randy);
-	}
+    def teleport(self):
 
-	public void increaseHealth(int h) {
-		this.health += h;
-	}
+        randx = random.randint(0, self.game.D-1)
+        randy = random.randint(0, self.game.D-1)
+        while self.game.postitionOccupied(randx,randy):
+            randx = random.randint(0, self.game.D-1)
+            randy = random.randint(0, self.game.D-1)
+        self.pos.setPos(randx,randy)
 
-	public void decreaseHealth(int h) {
-		this.health -= h;
-		if (this.health <= 0)
-			this.myString = "C" + this.myString.charAt(0);
-	}
+    def increaseHealth(self,h):
+        self.health += h
+    def decreaseHealth(self,h):
+        self.health -= h
+        if self.health <= 0 :
+            self.myString = "C" + self.myString[0]
 
-	public String getName() {
-		return myString;
-	}
+    def getName(self):
+        return self.myString
 
-	public void askForMove() {
-		// Print general information
-		System.out.println("Your health is " + health
-				+ String.format(". Your position is (%d,%d). Your mobility is %d.", pos.getX(), pos.getY(), this.MOBILITY));
+    def askForMove(self):
+        print("Your health is %d Your position is (%d,%d). Your mobility is %d." %
+         (self.health,self.pos.getX(), self.pos.getY(), self.MOBILITY))
+        print("You now have following options: ")
+        print("1. Move")
+        print("2. Attack")
+        print("3. End tne turn")
 
-		System.out.println("You now have following options: ");
-		System.out.println("1. Move");
-		System.out.println("2. Attack");
-		System.out.println("3. End tne turn");
+        a = raw_input()
 
-		int a = SurvivalGame.reader.nextInt();
+        if a == 1:
+            print "Specify your target position (Input 'x y')."
+            posx, posy = map(int, raw_input().split())
+            if self.pos.distance(posx,posy) > self.MOBILITY:
+                print "Beyond your reach. Staying still."
+            elif self.game.positionOccupied(posx,posy):
+                print "Position occupied. Cannot move there."
+            else:
+                self.pos.setPos(posx,posy)
+                self.game.printBoard()
+                print "You can now \n1.attack\n2.End the turn"
+                if raw_input() == 1:
+                    print "Input position to attack. (Input 'x y')"
+                    attx, atty = map(int, raw_input().split())
+                    self.equipment.action(attx,atty)
+        elif a == 2:
+            print "Input position to attack."
+            attx, atty = map(int, raw_input().split())
+            self.equipment.action(attx,atty)
+        elif a == 3:
+            return
 
-		if (a == 1) {
-			System.out.println("Specify your target position (Input 'x y').");
-			int posx = SurvivalGame.reader.nextInt(), posy = SurvivalGame.reader.nextInt();
-			if (pos.distance(posx, posy) > this.MOBILITY) {
-				System.out.println("Beyond your reach. Staying still.");
-			} else if (game.positionOccupied(posx, posy)) {
-				System.out.println("Position occupied. Cannot move there.");
-			} else {
-				this.pos.setPos(posx, posy);
-				game.printBoard();
-				System.out.println("You can now \n1.attack\n2.End the turn");
-				if (SurvivalGame.reader.nextInt() == 1) {
-					System.out.println("Input position to attack. (Input 'x y')");
-					int attx = SurvivalGame.reader.nextInt(), atty = SurvivalGame.reader.nextInt();
-					this.equipment.action(attx, atty);
-				}
-			}
-		} else if (a == 2) {
-			System.out.println("Input position to attack.");
-			int attx = SurvivalGame.reader.nextInt(), atty = SurvivalGame.reader.nextInt();
-			this.equipment.action(attx, atty);
-		} else if (a == 3) {
-			return;
-		}
-	}
 
-}
+
+
+

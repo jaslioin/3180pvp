@@ -1,32 +1,22 @@
-public class Human extends Player {
-	
-	public Human(int posx, int posy, int index, SurvivalGame game) {
-		super(80, 2, posx, posy, index, game);
-		
-		this.myString = 'H' + Integer.toString(index);
-		this.equipment = new Rifle(this);
-		
-	}
+from Player import Player
+from Rifle import Rifle
 
-	public void teleport() {
-		super.teleport();
-		((Rifle)this.equipment).enhance();
-	}
-	
-	public void distance(int posx, int posy)
-	{
-		
-	}
-	
-	@Override
-	public void askForMove() {
-		// TODO Auto-generated method stub
-		System.out.println(String.format("You are a human (H%d) using Rifle. (Range %d, Ammo #: %d, Damage per shot: %d)", this.index, 
-				this.equipment.getRange(),((Rifle)this.equipment).getAmmo(),
-				this.equipment.getEffect() ));
 
-		super.askForMove();
-		
-	}
+class Human(Player):
+    def __init__(self, posx, posy, index, game):
+        super(Human, self).__init__(80, 2, posx, posy, index, game)
+        self.myString = 'H' + index
+        self.equipment = Rifle(self)
 
-}
+    def teleport(self):
+        super(Human, self).teleport()
+        self.equipment.enhance()
+
+    def distance(self, posx, posy):
+        pass
+
+    def askForMove(self):
+        print("You are a human (H%d) using Rifle. (Range %d, Ammo #: %d, Damage per shot: %d)"
+              % (self.index, self.equipment.getRange(), self.equipment.getAmmo(),
+                 self.equipment.getEffect()))
+        super(Human,self).askForMove()

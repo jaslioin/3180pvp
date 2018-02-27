@@ -1,156 +1,84 @@
-public class SurvivalGame {
-	private int n; // Number of player
-	public final int D = 10; // dimension of board
-	private final int O = 2; // Number of obstacles
+#from Human import Human
+#from Chark import Chark
+from Player import Player
+from Pos import Pos
+#from Axe import Axe
+from Obstacle import Obstacle
+#from Rifle import Rifle
+from Weapon import Weapon
 
-	
-	private Object[] teleportObjects;
 
-	public static Scanner reader = new Scanner(System.in);
+class SurvivalGame(object):
+    n = 0
+    D = 10
+    O = 2
 
-	public void printBoard() {
-		String printObject[][] = new String[D][D];
+    #   NOT SURE
+    teleportObjects = [object() for x in range(10)]
+    def __init__(self):
+        print 'hi'
 
-		// init printObject
-		for (int i = 0; i < D; i++)
-			for (int j = 0; j < D; j++)
-				printObject[i][j] = "  ";
+    def printBoard(self):
+        printObject = [["  " for x in range(10)] for y in range(10)]
+        i=0
+        while(i<self.n):
+            #???????????
+            pos = Player(self.teleportObjects[i]).getPos()
+            printObject[pos.getX()][pos.getY()] = Player(self.teleportObjects[i].getName())
+            i += 1
 
-		for (int i = 0; i < n; i++) {
-			Pos pos = ((Player)teleportObjects[i]).getPos();
-			printObject[pos.getX()][pos.getY()] = ((Player) teleportObjects[i]).getName();
-		}
+        i=0
+        while i<self.n :
+            pos = Obstacle(self.teleportObjects[i]).getPos()
+            printObject[pos.getX()][pos.getY()] = 'O' + i-self.n
+            i += 1
 
-		for (int i = n; i < n+O; i++) {
-			Pos pos = ((Obstacle)teleportObjects[i]).getPos();
-			printObject[pos.getX()][pos.getY()] = "O" + Integer.toString(i-n);
-		}
+        #print
+        print " ",
+        i=0
+        while i<self.D:
+            print("|  %d " % i),
+            i += 1
+        print("|")
+        i=0
+        while i < self.D*3.2 :
+            print "-",
+            i += 1
+        print ""
+        row=0
+        while row < self.D:
+            print row,
+            col=0
+            while col < self.D:
+                print("| %s " %printObject[row][col]),
+                col+=1
+            print "|"
+            i=0
+            while i<self.D*3.2 :
+                print "-",
+                i+=1
+            print ""
+            row+=1
 
-		// printing
-		System.out.print(" ");
-		for (int i = 0; i < D; i++)
-			System.out.print(String.format("| %d  ", i));
+    def positionOccupied(self, randx, randy):
+        for o in self.teleportObjects:
+            if isinstance(o,Player):
+                pos = Player(o).getPos()
+                if pos.getX() == randx and pos.getY() ==randy :
+                    return T
 
-		System.out.println("|");
 
-		for (int i = 0; i < D * 5.5; i++)
-			System.out.print("-");
-		System.out.println("");
+    def getPlayer(self, randx, randy):
+        pass
 
-		for (int row = 0; row < D; row++) {
-			System.out.print(row);
-			for (int col = 0; col < D; col++)
-				System.out.print(String.format("| %s ",
-				printObject[row][col]));
-			System.out.println("|");
-			for (int i = 0; i < D * 5.5; i++)
-				System.out.print("-");
-			System.out.println("");
-		}
+    def init(self):
+        pass
 
-	}
+    def gameStart(self):
+        pass
 
-	public boolean positionOccupied(int randx, int randy) {
 
-		for (Object o : teleportObjects) {
-			if (o instanceof Player) {
-				Pos pos = ((Player) o).getPos();
-				if (pos.getX() == randx && pos.getY() == randy)
-					return true;
-			} else {
-				Pos pos = ((Obstacle) o).getPos();
-				if (pos.getX() == randx && pos.getY() == randy)
-					return true;
-			}
-
-		}
-
-		return false;
-	}
-
-	public Player getPlayer(int randx, int randy) {
-		// TODO Auto-generated method stub
-		for (Object o : teleportObjects) {
-			if (o instanceof Player) {
-				Pos pos = ((Player) o).getPos();
-				if (pos.getX() == randx && pos.getY() == randy)
-					return (Player) o;
-			}
-		}
-
-		return null;
-	}
-
-	private  void init() {
-
-		System.out.println("Welcome to Kafustrok. Light blesses you. \nInput number of players: (a even number)");
-		n = reader.nextInt();
-
-		teleportObjects = new Object[n + O];
-
-		// create N/2 Humans
-
-		for (int i = 0; i < n / 2; i++) {
-			teleportObjects[i] = new Human(0, 0, i, this);
-			teleportObjects[i + n / 2] = new Chark(0, 0, i, this);
-		}
-
-		// create O obstacles. You cannot stand there
-		for (int i = 0; i < O; i++) {
-
-			teleportObjects[i + n] = new Obstacle(0, 0, i, this);
-		}
-
-		// positions would be reinitialized later. 0,0 is dummy
-
-	}
-
-	private  void gameStart() {
-		int turn = 0;
-		int numOfAlivePlayers = n;
-		while (numOfAlivePlayers > 1) {
-			// teleport after every N turns
-			if (turn == 0) {
-				for (Object obj : teleportObjects) {
-					if (obj instanceof Human)
-						((Human) obj).teleport();
-					else if (obj instanceof Chark)
-						((Chark) obj).teleport();
-					else if (obj instanceof Obstacle)
-						((Obstacle) obj).teleport();
-				}
-				System.out.println("Everything gets teleported..");
-			}
-			printBoard();
-			Player t = (Player) teleportObjects[turn];
-			// t can move only if he is alive!
-			if (t.health > 0) {
-				// dynamic binding helps
-				t.askForMove();
-				System.out.println("\n");
-				
-			}
-			turn = (turn + 1) % n;
-			// count number of alive players
-			numOfAlivePlayers = 0;
-
-			for (int i = 0; i < n; i++) {
-				if (((Player) teleportObjects[i]).health > 0)
-					numOfAlivePlayers += 1;
-			}
-
-		}
-
-		System.out.println("Game over.");
-		printBoard();
-
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// System.out.println(String.format("(%d,%d)", 3,4));
-		SurvivalGame game = new SurvivalGame();
-		game.init();
-		game.gameStart();
-	}
-}
+game = SurvivalGame()
+game.printBoard()
+#game.init()
+#game.gameStart()

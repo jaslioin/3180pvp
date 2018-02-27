@@ -1,55 +1,35 @@
-public class Rifle extends Weapon {
-	private static final int RIFLE_RANGE = 4;
-	private static final int RIFLE_INIT_DAMAGE = 10;
+import Weapon
 
-	private static final int AMMO_LIMIT = 6;
 
-	//
-	private static final int AMMO_RECHARGE = 3;
+class Rifle(Weapon):
+    RIFLE_RANGE = 4
+    RIFLE_INIT_DAMAGE = 10
+    AMMO_LIMIT = 6
+    AMMO_RECHARGE = 3
+    ammo = 0
 
-	private int ammo;
+    def __init__(self, owner):
+        super(Rifle, self).__init__(self.RIFLE_RANGE, self.RIFLE_INIT_DAMAGE, owner)
+        self.ammo = self.AMMO_LIMIT
 
-	public Rifle(Player owner) {
-		super(RIFLE_RANGE, RIFLE_INIT_DAMAGE, owner);
-		// TODO Auto-generated constructor stub
-		this.ammo = AMMO_LIMIT;
-	}
+    def enhance(self):
+        self.ammo = min(self.AMMO_LIMIT, self.ammo + self.AMMO_RECHARGE)
 
-	public void enhance() {
-		// recharge
-		this.ammo = Math.min(AMMO_LIMIT, this.ammo + AMMO_RECHARGE);
+    def action(self, posx, posy):
+        print "You are using rifle attacking " + posx + " " + posy + "."
+        print "Type how many ammos you want to use."
+        ammoToUse = int(raw_input())
 
-	}
+        if ammoToUse > self.ammo:
+            print "You don't have that ammos."
+            return
+        if self.owner.pos.distance(posx, posy) <= self.range:
+            player = self.owner.game.getPlayer(posx, posy)
+            if player is not None:
+                player.decreaseHealth(self.effect * ammoToUse)
+                self.ammo -= ammoToUse
+        else:
+            print "Out of reach."
 
-	@Override
-	public void action(int posx, int posy) {
-		// TODO Auto-generated method stub
-		System.out.println("You are using rifle attacking " + posx + " " + posy + ".");
-
-		System.out.println("Type how many ammos you want to use.");
-
-		int ammoToUse = SurvivalGame.reader.nextInt();
-
-		if (ammoToUse > this.ammo) {
-			System.out.println("You don't have that ammos.");
-			return;
-		} 
-
-		if (this.owner.pos.distance(posx, posy) <= this.range) {
-			// search for all targets with target coordinates.
-			Player player = owner.game.getPlayer(posx, posy);
-			if(player != null)
-			{
-				player.decreaseHealth(this.effect * ammoToUse);
-				ammo -= ammoToUse;
-			}
-		} else
-			System.out.println("Out of reach.");
-
-	}
-
-	public int getAmmo() {
-		return this.ammo;
-	}
-
-}
+    def getAmmo(self):
+        return self.ammo

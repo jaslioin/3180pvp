@@ -1,32 +1,25 @@
-import java.util.Random;
+from random import random
+from Pos import Pos
+#from SurvivalGame import SurvivalGame
 
-public class Obstacle {
-	private Pos pos;
-	int index;
-	private SurvivalGame game;
-	
-	public Obstacle(int posx, int posy, int index, SurvivalGame game) {
-		// TODO Auto-generated constructor stub
-		pos = new Pos(posx, posy);
-		this.index = index;
-		this.game = game;
-	}
 
-	public Pos getPos() {
-		return pos;
-	}
+class Obstacle(object):
+    pos = None
+    index = 0
+    game = None
 
-	
-	public void teleport() {
-		Random rand;
-		rand = new Random();
-		// distributed at different sides
-		int randx = rand.nextInt(game.D);
-		int randy = game.D - randx - 1;
-		while (game.positionOccupied(randx, randy)) {
-			randx = rand.nextInt(game.D);
-			randy = game.D - randx - 1;
-		}
-		pos.setPos(randx, randy);
-	}
-}
+    def __init__(self, posx, posy, index, game):
+        self.pos = Pos(posx, posy)
+        self.index = index
+        self.game = game
+
+    def getPos(self):
+        return self.pos
+
+    def teleport(self):
+        randx = random.randint(0, self.game.D - 1)
+        randy = self.game.D - randx - 1
+        while self.game.positionOccupied(randx, randy):
+            randx = random.randint(0, self.game.D - 1)
+            randy = self.game.D - randx - 1
+        self.pos.setPos(randx, randy)
