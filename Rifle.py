@@ -1,4 +1,4 @@
-import Weapon
+from Weapon import Weapon
 
 
 class Rifle(Weapon):
@@ -9,14 +9,14 @@ class Rifle(Weapon):
     ammo = 0
 
     def __init__(self, owner):
-        super(Rifle, self).__init__(self.RIFLE_RANGE, self.RIFLE_INIT_DAMAGE, owner)
+        Weapon.__init__(self,self.RIFLE_RANGE, self.RIFLE_INIT_DAMAGE, owner)
         self.ammo = self.AMMO_LIMIT
 
     def enhance(self):
         self.ammo = min(self.AMMO_LIMIT, self.ammo + self.AMMO_RECHARGE)
 
     def action(self, posx, posy):
-        print "You are using rifle attacking " + posx + " " + posy + "."
+        print "You are using rifle attacking " ,posx,"",posy,"."
         print "Type how many ammos you want to use."
         ammoToUse = int(raw_input())
 

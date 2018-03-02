@@ -5,13 +5,13 @@ from Axe import Axe
 class Chark(Player):
 
     def __init__(self, posx, posy, index, game):
-        super(Player, self).__init__(100, 4, posx, posy, index, game)
+        Player.__init__(self,100, 4, posx, posy, index, game)
 
-        self.myString = "C" + index
-        self.equipment = Axe()
+        self.myString = "C" + str(index)
+        self.equipment = Axe(self)
 
     def teleport(self):
-        super(Player, self).__init__()
+        super(Chark, self).teleport()
         self.equipment.enhance()
 
     def askForMove(self):

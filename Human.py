@@ -5,7 +5,7 @@ from Rifle import Rifle
 class Human(Player):
     def __init__(self, posx, posy, index, game):
         super(Human, self).__init__(80, 2, posx, posy, index, game)
-        self.myString = 'H' + index
+        self.myString = 'H' + str(index)
         self.equipment = Rifle(self)
 
     def teleport(self):

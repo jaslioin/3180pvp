@@ -1,7 +1,7 @@
-import Player
+#from Player import Player
 
 
-class Weapon:
+class Weapon(object):
     range = 0
     effect = 0
     #   NOT SURE

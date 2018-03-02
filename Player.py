@@ -1,4 +1,4 @@
-from random import random
+import random
 from Pos import Pos
 from Weapon import Weapon
 #from SurvivalGame import SurvivalGame
@@ -12,7 +12,8 @@ class Player(object):
     index = 0
     myString = ''
     game = None
-
+    def __init__(self):
+        pass
     def __init__(self, healthCap, mob, posx, posy, index, game):
         self.MOBILITY = mob
         self.health = healthCap
@@ -26,8 +27,10 @@ class Player(object):
     def teleport(self):
 
         randx = random.randint(0, self.game.D-1)
+
         randy = random.randint(0, self.game.D-1)
-        while self.game.postitionOccupied(randx,randy):
+        print "Player teleported to ",randx," ",randy
+        while self.game.positionOccupied(randx,randy):
             randx = random.randint(0, self.game.D-1)
             randy = random.randint(0, self.game.D-1)
         self.pos.setPos(randx,randy)
@@ -50,7 +53,7 @@ class Player(object):
         print("2. Attack")
         print("3. End tne turn")
 
-        a = raw_input()
+        a = int(raw_input())
 
         if a == 1:
             print "Specify your target position (Input 'x y')."
@@ -63,7 +66,7 @@ class Player(object):
                 self.pos.setPos(posx,posy)
                 self.game.printBoard()
                 print "You can now \n1.attack\n2.End the turn"
-                if raw_input() == 1:
+                if int(raw_input()) == 1:
                     print "Input position to attack. (Input 'x y')"
                     attx, atty = map(int, raw_input().split())
                     self.equipment.action(attx,atty)
