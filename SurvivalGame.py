@@ -1,23 +1,34 @@
+# CSCI3180 Principles of Programming Languages
+# --- Declaration ---
+# I declare that the assignment here submitted is original except for source
+# material explicitly acknowledged. I also acknowledge that I am aware of
+# University policy and regulations on honesty in academic work, and of the
+# disciplinary guidelines and procedures applicable to breaches of such policy and regulations, as contained in the website
+# http://www.cuhk.edu.hk/policy/academichonesty/
+# Assignment 2
+# Name : Li Ho Yin
+#Student ID : 1155077785
+#Email Addr : hyli6@cse.cuhk.edu.hk
 from Human import Human
 from Chark import Chark
 from Player import Player
 from Pos import Pos
-#from Axe import Axe
 from Obstacle import Obstacle
-#from Rifle import Rifle
 from Weapon import Weapon
 
 
 class SurvivalGame(object):
-    n = 0
-    D = 10
-    O = 2
-
-    #   NOT SURE
-    teleportObjects = None
+    #n = 0
+    #D = 10
+    #O = 2
+    #teleportObjects = None
 
     def __init__(self):
-        pass
+        self.n = 0
+        self.D = 10
+        self.O = 2
+        self.teleportObjects = None
+        
 
     def printBoard(self):
         printObject = [["  " for x in range(self.D)] for y in range(self.D)]
@@ -98,7 +109,7 @@ class SurvivalGame(object):
         for i in range(0,self.n/2):
             print "created ",i+1," entity"
             self.teleportObjects[i] = Human(0,0,i,self)
-            self.teleportObjects[i+self.n/2] = Chark(0,0,i,self)
+            self.teleportObjects[i+self.n/2] = Chark(0,0,i,self)            
         i= 0
         while(i<self.O):
             print "created ",i," Obstacle"
@@ -144,3 +155,4 @@ class SurvivalGame(object):
 game = SurvivalGame()
 game.init()
 game.gameStart()
+
