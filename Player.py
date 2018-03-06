@@ -16,23 +16,14 @@ from Weapon import Weapon
 
 
 class Player(object):
-    #MOBILITY = 0
-    #pos = None
-    #health = 0
-    #equipment = None
-    #index = 0
-    #myString = ''
-    #game = None
-    def __init__(self):
-        pass
+
     def __init__(self, healthCap, mob, posx, posy, index, game):
         self.MOBILITY = mob
         self.health = healthCap
         self.pos = Pos(posx, posy)
         self.index = index
         self.game = game
-    #self.myString = ''
-    #self.equipment = None
+
     def getPos(self):
         return self.pos
 
