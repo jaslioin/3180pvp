@@ -18,40 +18,33 @@ from Weapon import Weapon
 
 
 class SurvivalGame(object):
-    #n = 0
-    #D = 10
-    #O = 2
-    #teleportObjects = None
-
+    
     def __init__(self):
-        self.n = 0
         self.D = 10
         self.O = 2
-        self.teleportObjects = None
-        
-
     def printBoard(self):
         printObject = [["  " for x in range(self.D)] for y in range(self.D)]
 
         i=0
         while(i<self.n):
-            if isinstance(self.teleportObjects[i],Player):
-                pos = self.teleportObjects[i].getPos()
+            
+            pos = self.teleportObjects[i].getPos()
+            try:
                 printObject[pos.getX()][pos.getY()] = \
                     self.teleportObjects[i].getName()
-                print "player ",pos.getX(),pos.getY()
+            except AttributeError:
+                pass
             i += 1
 
         i=self.n
         while i<self.n+self.O :
-            #self.teleportObjects[i] = Obstacle(1,1,i,self)
+            
 
             if isinstance(self.teleportObjects[i],Obstacle):
 
                 pos = self.teleportObjects[i].getPos()
                 tmp = i+1-self.n
                 printObject[pos.getX()][pos.getY()] = 'O'+str(tmp)
-                print "Obstacle ",pos.getX(),pos.getY()
             i += 1
 
         #print
@@ -107,12 +100,12 @@ class SurvivalGame(object):
         self.n = int(raw_input())
         self.teleportObjects = [object() for x in range(self.n+self.O)]
         for i in range(0,self.n/2):
-            print "created ",i+1," entity"
+            #print "created ",i+1," entity"
             self.teleportObjects[i] = Human(0,0,i,self)
             self.teleportObjects[i+self.n/2] = Chark(0,0,i,self)            
         i= 0
         while(i<self.O):
-            print "created ",i," Obstacle"
+            #print "created ",i," Obstacle"
             self.teleportObjects[i+self.n] = Obstacle(0,0,i,self)
             i += 1
 
@@ -120,7 +113,7 @@ class SurvivalGame(object):
     def gameStart(self):
         turn = 0
         numOfAlivePlayers = self.n
-        print "num of alive player ",numOfAlivePlayers
+
         while numOfAlivePlayers > 1:
             if turn == 0:
                 for obj in self.teleportObjects :
@@ -131,20 +124,20 @@ class SurvivalGame(object):
 
             if isinstance(self.teleportObjects[turn],Player):
                 t = self.teleportObjects[turn]
-                if t.health > 0:
-                    t.askForMove()
-                    print ""
-
+                try:
+                    if t.health > 0:
+                        t.askForMove()
+                        print ""
+                except AttributeError:
+                    pass
             turn = (turn + 1) % self.n
-            print "turn ",turn
+
             numOfAlivePlayers = 0
             for i in range(0,self.n):
                 if isinstance(self.teleportObjects[i],Player):
                     if self.teleportObjects[i].health > 0:
                         numOfAlivePlayers += 1
-        for i in range(0,self.n):
-            if isinstance(self.teleportObjects[i],Player):
-                print "player health",self.teleportObjects[i].health
+
         print "Game over."
         self.printBoard()
 

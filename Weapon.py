@@ -11,9 +11,7 @@
 #Email Addr : hyli6@cse.cuhk.edu.hk
 
 class Weapon(object):
-    #range = 0
-    #effect = 0
-    #owner = None
+    
 
     def __init__(self, range, damage, owner):
         self.range = range

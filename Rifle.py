@@ -13,11 +13,6 @@ from Weapon import Weapon
 
 
 class Rifle(Weapon):
-    #RIFLE_RANGE = 4
-    #RIFLE_INIT_DAMAGE = 10
-    #AMMO_LIMIT = 6
-    #AMMO_RECHARGE = 3
-    #ammo = 0
 
     def __init__(self, owner):
         self.RIFLE_RANGE = 4

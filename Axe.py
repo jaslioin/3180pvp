@@ -7,31 +7,28 @@
 # http://www.cuhk.edu.hk/policy/academichonesty/
 # Assignment 2
 # Name : Li Ho Yin
-#Student ID : 1155077785
-#Email Addr : hyli6@cse.cuhk.edu.hk
+# Student ID : 1155077785
+# Email Addr : hyli6@cse.cuhk.edu.hk
 from Weapon import Weapon
-class Axe(Weapon):
-    #AXE_RANGE = 1
-    #AXE_INIT_DAMAGE = 40
 
-    def __init__(self,owner):
+
+class Axe(Weapon):
+
+    def __init__(self, owner):
         self.AXE_RANGE = 1
         self.AXE_INIT_DAMAGE = 40
-        Weapon.__init__(self,self.AXE_RANGE,self.AXE_INIT_DAMAGE,owner)
+        Weapon.__init__(self, self.AXE_RANGE, self.AXE_INIT_DAMAGE, owner)
 
-	def enhance(self):
-		self.effect +=10
+    def enhance(self):
+        self.effect += 10
 
-#	override
-	def action(self,posx,posy):
-		print "You are using axe attacking",posx,posy,"."
+    def action(self, posx, posy):
+        print "You are using axe attacking", posx, posy, "."
 
-		if self.owner.pos.distance(posx,posy) <= self.range:
-			player = self.owner.game.getPlayer(posx,posy)
+        if self.owner.pos.distance(posx, posy) <= self.range:
+            player = self.owner.game.getPlayer(posx, posy)
 
-			if player is not None:
-				player.decreaseHealth(self.effect)
-		else:
-			print "Out of reach."
-
-
+            if player is not None:
+                player.decreaseHealth(self.effect)
+        else:
+            print "Out of reach."
